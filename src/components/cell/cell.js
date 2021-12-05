@@ -25,7 +25,7 @@ const getColor = (value) => {
 const Cell = ({number}) => {
 
   return (
-    <div  style={{backgroundColor: getColor(number)}}>
+    <div  className="cell" style={{backgroundColor: getColor(number)}}>
       <span className="number">{number}</span>
     </div>
   )

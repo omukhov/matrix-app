@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Cell from "../cell";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -20,14 +20,7 @@ import "./matrix.css";
   return board;
 }; */
 
-
-/* const createMatrix = (numbers) => {
-  //return numbers.map(number => <div className={`row ${checkFilters(number) ? "" : "Cell_valid"}`}><Cell number={number}/></div>;
-  return numbers.map((number) => <Cell number={number}/>);
-}; */
-
 const Matrix = () => {
-
   const numbers = useMemo(() => {
     const min = -100;
     const max = 100;
@@ -40,22 +33,51 @@ const Matrix = () => {
 
   const [filtredCell, setFiltredCell] = useState(numbers);
 
+  const checkFilters = (number) => {
+    
+    if (filtredCell === "all") {
+      return true;
+    }
+
+    if (filtredCell === "positive") {
+      if (number > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (filtredCell === "negative") {
+      if (number < 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+  
+  const createMatrix = (numbers) => {
+    //return numbers.map(number => <div className={`row ${checkFilters(number) ? "" : "Cell_valid"}`}><Cell number={number}/></div>;
+    return numbers.map((number) => (
+      <div className={`cell ${checkFilters(number) ? "" : "cell-valid"}`}>
+        {number}
+      </div>
+    ))
+  };
+
   const handleCell = (e) => {
     let filterName = e.target.value;
 
     if (filterName === "all") {
-      //setFiltredCell(numbers);
-
+      setFiltredCell(filterName);
     }
 
     if (filterName === "positive") {
-
-      //setFiltredCell(numbers.filter(number => number > 0));
+      setFiltredCell(filterName);;
     }
 
     if (filterName === "negative") {
-
-      //setFiltredCell(numbers.filter(number => number < 0));
+      setFiltredCell(filterName);
     }
   };
   /* const dispatch = useDispatch();
@@ -66,62 +88,35 @@ const Matrix = () => {
     dispatch(actions.negative(numbers));
   });
 
-  const value = useSelector((state) => state.numbers)
-  console.log(value) */
-  const checkFilters = (e, number) => {
-    let filterName = e.target.value;
+  const value = useSelector((state) => state.numbers) */
+  
 
-    /* if (number > 0) {
-      console.log('true');
-      return true;
-      
-    } 
-    console.log('false');
-      return false;
-     */
-    if (filterName === "all") {
-      if (number) {
-        return true;
-      }
-    }
-
-    if (filterName === "positive") {
-      if (number > 0) {
-        return true;
-      }
-    }
-
-    if (filterName === "positive") {
-      if (number < 0) {
-        return true;
-      }
-    }
-
-  };
-
-  //numbers.map(number => <div className={`${styles.Cell} ${checkFilters(number) ? "" : styles.Cell_valid}`}>{number}</div>) 
+  useEffect(() => {
+    return numbers.map(number => <Cell number={number} />)
+  }, []);
+  //numbers.map(number => <div className={`${styles.Cell} ${checkFilters(number) ? "" : styles.Cell_valid}`}>{number}</div>)
 
   return (
     <React.Fragment>
-        <div className="header">
-            Draw table
+      <div className="header">Draw table</div>
+      <div className="board">
+        <div className="row">
+          {createMatrix(numbers)}
         </div>
-        <div className="board">
-            <div className="row">
-              {
-                numbers.map(number => <div className={`cell ${checkFilters(number) ? "cell" : "cell-valid"}`}>{number}</div>) 
-                //numbers.map((number) => <Cell className={`cell ${checkFilters(number) ? "" : "cell-valid"}`} number={number} />)
-              }
-            </div>
-        </div>
-        <div className="footer">
-          <button value="all" onClick={checkFilters}>All</button>
-          <button value="positive" onClick={checkFilters}>Filter &#62; 0</button>
-          <button value="negative" onClick={checkFilters}>Filter &#60; 0</button>
-        </div>
+      </div>
+      <div className="footer">
+        <button value="all" onClick={handleCell}>
+          All
+        </button>
+        <button value="positive" onClick={handleCell}>
+          Filter &#62; 0
+        </button>
+        <button value="negative" onClick={handleCell}>
+          Filter &#60; 0
+        </button>
+      </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Matrix;
-
