@@ -22,13 +22,17 @@ const getColor = (value) => {
 };
 
 
-const Cell = ({number}) => {
+const Cell = ({number, isValid}) => {
 
-  return (
-    <div  className="cell" style={{backgroundColor: getColor(number)}}>
-      <span className="number">{number}</span>
-    </div>
-  )
+    return (
+      <>
+      {
+        isValid ? <div  className="cell" style={{backgroundColor: getColor(number)}}>
+        <span className="number">{number}</span>
+        </div> :  <div  className="cell-valid"></div>
+      }      
+      </>     
+    )
 };
 
 

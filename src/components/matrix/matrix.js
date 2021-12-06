@@ -59,8 +59,10 @@ const Matrix = () => {
   const createMatrix = (numbers) => {
     //return numbers.map(number => <div className={`row ${checkFilters(number) ? "" : "Cell_valid"}`}><Cell number={number}/></div>;
     return numbers.map((number) => (
-      <div className={`cell ${checkFilters(number) ? "" : "cell-valid"}`}>
-        {number}
+      <div 
+        className={`cell ${checkFilters(number) ? "" : "cell-valid"}`}
+      >
+        <Cell isValid={checkFilters(number)} number={number}/>
       </div>
     ))
   };
@@ -90,10 +92,6 @@ const Matrix = () => {
 
   const value = useSelector((state) => state.numbers) */
   
-
-  useEffect(() => {
-    return numbers.map(number => <Cell number={number} />)
-  }, []);
   //numbers.map(number => <div className={`${styles.Cell} ${checkFilters(number) ? "" : styles.Cell_valid}`}>{number}</div>)
 
   return (
