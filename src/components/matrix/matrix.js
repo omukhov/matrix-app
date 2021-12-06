@@ -39,9 +39,10 @@ const Matrix = () => {
   };
   
   const createMatrix = (numbers) => {
-    return numbers.map((number) => (
+    return numbers.map((number, index) => (
       <div 
         className={`cell ${checkFilters(number) ? "" : "cell-valid"}`}
+        key={index}
       >
         <Cell isValid={checkFilters(number)} number={number}/>
       </div>
