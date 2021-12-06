@@ -1,24 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Cell from "../cell";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import * as actions from "../../actions";
-
 import "./matrix.css";
-
-/* const createMatrix = (numbers) => {
-  let board = [];
-  let count = 0;
-  for (let i = 0; i < 13; i++) {
-    let row = [];
-    for (let j = 0; j < 13; j++) {
-      row.push(<Cell number={numbers[count]} key={i + j}/>);
-      count++;
-    }
-    board.push(<div className="row" key={"row" + i}>{row}</div>); 
-  }
-  return board;
-}; */
 
 const Matrix = () => {
   const numbers = useMemo(() => {
@@ -31,15 +13,15 @@ const Matrix = () => {
     return arrayNumbers;
   }, []);
 
-  const [filtredCell, setFiltredCell] = useState(numbers);
+  const [filtredName, setFiltredName] = useState("all");
 
   const checkFilters = (number) => {
     
-    if (filtredCell === "all") {
+    if (filtredName === "all") {
       return true;
     }
 
-    if (filtredCell === "positive") {
+    if (filtredName === "positive") {
       if (number > 0) {
         return true;
       } else {
@@ -47,7 +29,7 @@ const Matrix = () => {
       }
     }
 
-    if (filtredCell === "negative") {
+    if (filtredName === "negative") {
       if (number < 0) {
         return true;
       } else {
@@ -57,7 +39,6 @@ const Matrix = () => {
   };
   
   const createMatrix = (numbers) => {
-    //return numbers.map(number => <div className={`row ${checkFilters(number) ? "" : "Cell_valid"}`}><Cell number={number}/></div>;
     return numbers.map((number) => (
       <div 
         className={`cell ${checkFilters(number) ? "" : "cell-valid"}`}
@@ -71,45 +52,34 @@ const Matrix = () => {
     let filterName = e.target.value;
 
     if (filterName === "all") {
-      setFiltredCell(filterName);
+      setFiltredName(filterName);
     }
 
     if (filterName === "positive") {
-      setFiltredCell(filterName);;
+      setFiltredName(filterName);;
     }
 
     if (filterName === "negative") {
-      setFiltredCell(filterName);
+      setFiltredName(filterName);
     }
   };
-  /* const dispatch = useDispatch();
-
-  useLayoutEffect(() => {
-    dispatch(actions.all(numbers));
-    dispatch(actions.positive(numbers));
-    dispatch(actions.negative(numbers));
-  });
-
-  const value = useSelector((state) => state.numbers) */
   
-  //numbers.map(number => <div className={`${styles.Cell} ${checkFilters(number) ? "" : styles.Cell_valid}`}>{number}</div>)
-
   return (
     <React.Fragment>
       <div className="header">Draw table</div>
       <div className="board">
-        <div className="row">
+        <div className="matrix">
           {createMatrix(numbers)}
         </div>
       </div>
       <div className="footer">
-        <button value="all" onClick={handleCell}>
-          All
-        </button>
-        <button value="positive" onClick={handleCell}>
+        <button value="positive" className="positive" onClick={handleCell}>
           Filter &#62; 0
         </button>
-        <button value="negative" onClick={handleCell}>
+        <button value="all" className="all" onClick={handleCell}>
+          All
+        </button>
+        <button value="negative" className="negative" onClick={handleCell}>
           Filter &#60; 0
         </button>
       </div>
